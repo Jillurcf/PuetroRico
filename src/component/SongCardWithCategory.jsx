@@ -6,12 +6,13 @@ import { fontSizes, spacing } from '../constants/dimensions'
 import { fontFamilies } from '../constants/fonts'
 import { songWithCategory } from './../data/SongsWithCategory';
 import TrackPlayer from 'react-native-track-player'
-import { useTheme } from '@react-navigation/native'
+import { useNavigation, useTheme } from '@react-navigation/native'
+
 
 const SongCardWithCategory = ({item}) => {
   const {colors} = useTheme();
   // console.log("Category Item", item);
-
+const navigation = useNavigation()
   
 // create a function that will play a song in queue
 const handlePlayTrack = async (selectedTrack, songs = item.songs) => {
@@ -38,6 +39,10 @@ const trackIndex = songs.findIndex(
     await TrackPlayer.add(beforeTracks)
     await TrackPlayer.play();
 
+    navigation.navigate('SrotyPreview', {
+      selectedTrack: selectedTrack,
+      // trackList: trackList, // Pass the entire track list
+    });
     // Call the onSelect function to notify HomeScreen of the selected track
     // onSelect(selectedTrack);
   } catch (error) {
